@@ -20,6 +20,8 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddScoped<IproductRepository, productRepository>();
+
+
     }
 
 }
