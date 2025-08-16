@@ -1,14 +1,18 @@
 
-using E_commerce.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Extensions;
 using Core.Extensions;
+using E_commerce.Extensions;
+using Infrastructure.Data;
+using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
+
 namespace API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +42,21 @@ namespace API
 
 
             app.MapControllers();
+
+            try
+            {
+                using var scope = app.Services.CreateScope();
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                //var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                await context.Database.MigrateAsync();
+                await ApplicationDbContextSeed.SeedAsync(context);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
 
             app.Run();
         }
