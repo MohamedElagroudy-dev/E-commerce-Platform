@@ -13,10 +13,9 @@ namespace API.Controllers
     {
         // GET: api/Product
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(string? brand, string? type,string? sort)
         {
-            var products = await repo.GetProductsAsync();
-            return Ok(products);
+            return Ok(await repo.GetProductsAsync(brand, type, sort));
         }
 
         // GET: api/Product/5
@@ -76,6 +75,18 @@ namespace API.Controllers
                 return Ok();
             }
             return BadRequest("Problem in deleteing the product");
+        }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
+        {
+            return Ok(await repo.GetBrandsAsync());
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
+        {
+            return Ok(await repo.GetTypesAsync());
         }
     }
 }
