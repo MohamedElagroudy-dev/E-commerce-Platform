@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class productRepository(ApplicationDbContext context) : IproductRepository
+    public class ProductRepository(ApplicationDbContext context) : IProductRepository
     {
         public void AddProduct(Product product)
         {
