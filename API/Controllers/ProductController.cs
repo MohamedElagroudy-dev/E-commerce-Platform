@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Core.Specification;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -77,16 +78,20 @@ namespace API.Controllers
             return BadRequest("Problem in deleteing the product");
         }
 
-        //[HttpGet("brands")]
-        //public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
-        //{
-        //    return Ok(await repo.GetBrandsAsync());
-        //}
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
+        {
+            var spec = new BrandListSpecification();
 
-        //[HttpGet("types")]
-        //public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
-        //{
-        //    return Ok(await repo.GetTypesAsync());
-        //}
+            return Ok(await repo.ListAsync(spec));
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
+        {
+            var spec = new TypeListSpecification();
+
+            return Ok(await repo.ListAsync(spec));
+        }
     }
 }
