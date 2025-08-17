@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Interfaces
 {
-    public interface IproductRepository
+    public interface IProductRepository
     {
         Task<IReadOnlyList<Product>> GetProductsAsync(string? brand, string? type, string? sort);
         Task<Product?> GetProductByIdAsync(int id);
