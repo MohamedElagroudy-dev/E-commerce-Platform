@@ -10,13 +10,15 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(IGenericRepository<Product> repo) : ControllerBase
+    public class ProductController(IGenericRepository<Product> repo) : BaseApiController
     {
         // GET: api/Product
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(string? brand, string? type,string? sort)
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts([FromQuery]ProductSpecParams productParams)
         {
-            return Ok(await repo.ListAllAsync());
+            var spec = new ProductSpecification(productParams);
+            return await CreatePagedResult(repo, spec,
+            productParams.PageIndex, productParams.PageSize);
         }
 
         // GET: api/Product/5
