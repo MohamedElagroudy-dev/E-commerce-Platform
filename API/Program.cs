@@ -1,4 +1,5 @@
 
+using API.Middleware;
 using Core.Extensions;
 using E_commerce.Extensions;
 using Infrastructure.Data;
@@ -40,7 +41,7 @@ namespace API
                 app.MapScalarApiReference();
             }
 
-
+            app.UseMiddleware<ExceptionMiddleware>();
             app.MapControllers();
 
             try
