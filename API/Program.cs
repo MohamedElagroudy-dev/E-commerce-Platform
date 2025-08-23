@@ -1,5 +1,6 @@
-
+﻿
 using API.Middleware;
+using Core.Entities;
 using Core.Extensions;
 using E_commerce.Extensions;
 using Infrastructure.Data;
@@ -31,6 +32,9 @@ namespace API
 
             #endregion
 
+            builder.Services.AddAuthorization();
+            builder.Services.AddIdentityApiEndpoints<AppUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
@@ -43,6 +47,8 @@ namespace API
 
             app.UseMiddleware<ExceptionMiddleware>();
             app.MapControllers();
+
+            app.MapGroup("api").MapIdentityApi<AppUser>();
 
             try
             {
@@ -58,6 +64,9 @@ namespace API
                 Console.WriteLine(ex);
                 throw;
             }
+
+            app.UseAuthentication(); // 👈 Must be before UseAuthorization
+            app.UseAuthorization();
 
             app.Run();
         }

@@ -1,5 +1,6 @@
 
 
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -7,6 +8,9 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+
+
 
 namespace Infrastructure.Extensions;
 
@@ -20,9 +24,11 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(ConnectionString);
         });
 
+
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddSingleton<ICartService, CartService>();
+        
 
 
 
