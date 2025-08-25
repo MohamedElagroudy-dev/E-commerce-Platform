@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.8" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="9.0.8" />
     <PackageReference Include="StackExchange.Redis" Version="2.9.11" />
+    <PackageReference Include="Stripe.net" Version="48.4.0" />
   </ItemGroup>
 
   <ItemGroup>
