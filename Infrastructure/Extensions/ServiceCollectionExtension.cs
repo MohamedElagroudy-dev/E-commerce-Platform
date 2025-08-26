@@ -28,9 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddSingleton<ICartService, CartService>();
-        
-
-
+        services.AddScoped<IPaymentService, PaymentService>();
 
     }
 
