@@ -1,5 +1,6 @@
 ﻿
 using API.Middleware;
+using API.SignalR;
 using Core.Entities;
 using Core.Extensions;
 using E_commerce.Extensions;
@@ -49,6 +50,7 @@ namespace API
             app.MapControllers();
 
             app.MapGroup("api").MapIdentityApi<AppUser>();
+            app.MapHub<NotificationHub>("/hub/notifications");
 
             try
             {
@@ -65,7 +67,7 @@ namespace API
                 throw;
             }
 
-            app.UseAuthentication(); // 👈 Must be before UseAuthorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.Run();
