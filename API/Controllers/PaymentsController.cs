@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.SignalR;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
@@ -16,7 +17,7 @@ namespace API.Controllers
     //[Authorize]
     public class PaymentsController(IPaymentService paymentService,
     IUnitOfWork unit,
-    //IHubContext<NotificationHub> hubContext,
+    IHubContext<NotificationHub> hubContext,
     ILogger<PaymentsController> logger,
     IConfiguration config) : BaseApiController
     {
@@ -104,13 +105,13 @@ namespace API.Controllers
 
                 await unit.Complete();
 
-                //var connectionId = NotificationHub.GetConnectionIdByEmail(order.BuyerEmail);
+                var connectionId = NotificationHub.GetConnectionIdByEmail(order.BuyerEmail);
 
-                //if (!string.IsNullOrEmpty(connectionId))
-                //{
-                //    await hubContext.Clients.Client(connectionId).SendAsync("OrderCompleteNotification",
-                //        order.ToDto());
-                //}
+                if (!string.IsNullOrEmpty(connectionId))
+                {
+                    await hubContext.Clients.Client(connectionId).SendAsync("OrderCompleteNotification",
+                        order.ToDto());
+                }
             }
         }
     }
