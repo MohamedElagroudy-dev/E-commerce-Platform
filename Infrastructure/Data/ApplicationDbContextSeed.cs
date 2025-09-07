@@ -12,8 +12,19 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContextSeed
     {
-        public static async Task SeedAsync(ApplicationDbContext context)
+        public static async Task SeedAsync(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
+            if(!userManager.Users.Any(x => x.UserName == "admin@test.com"))
+            {
+                var user = new AppUser
+                {
+                    UserName = "admin@test.com",
+                    Email = "admin@test.com"
+                };
+
+                await userManager.CreateAsync(user, "Password@123");
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
             if (!context.Products.Any())
             {
                 var productsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/products.json");

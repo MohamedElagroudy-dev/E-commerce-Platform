@@ -35,6 +35,7 @@ namespace API
 
             builder.Services.AddAuthorization();
             builder.Services.AddIdentityApiEndpoints<AppUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
@@ -57,9 +58,9 @@ namespace API
                 using var scope = app.Services.CreateScope();
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ApplicationDbContext>();
-                //var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
                 await context.Database.MigrateAsync();
-                await ApplicationDbContextSeed.SeedAsync(context);
+                await ApplicationDbContextSeed.SeedAsync(context, userManager);
             }
             catch (Exception ex)
             {
