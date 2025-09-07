@@ -15,6 +15,7 @@ namespace Core.Entities.OrderAggregate
         PaymentReceived,
         //[EnumMember(Value = "Payment Failed")]
         PaymentFailed,
-        PaymentMismatch
+        PaymentMismatch,
+        Refunded
     }
 }
